@@ -13,7 +13,7 @@
 ```
 
 # 디렉토리 구조
-image.png
+![image](https://github.com/swaglack/Backend/assets/58283954/4ac5e324-7302-41c1-9f89-ac7a137b47fc)
 
 # dotenv
 ```
