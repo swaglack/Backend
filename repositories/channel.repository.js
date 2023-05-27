@@ -1,10 +1,15 @@
+const Channel = require("../schemas/channel");
+
 class ChannelRepository {
-  postChannel = async (req, res, next) => {
-    try {
-      return res.status(201).json({});
-    } catch (err) {
-      return err;
-    }
+  // Channel 생성
+  postChannel = async (channelName, userName, workspaceId) => {
+    const channel = await Channel.create({
+      channelName,
+      workspaceId,
+      channelMaster: userName,
+      channelMember: [userName],
+    });
+    return channel ;
   };
 }
 

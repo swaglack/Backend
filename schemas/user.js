@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 // User 스키마 정의
 const UserSchema = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
   userName: {
     type: String,
     required: true,
@@ -28,10 +27,10 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// UserSchema.virtual("userId").get(function () {
-//   return this.userId.toHexString();
-// });
+UserSchema.virtual("userId").get(function () {
+  return this._id.toHexString();
+});
 
-// UserSchema.set("toJSON", { virtuals: true });
+UserSchema.set("toJSON", { virtuals: true });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -20,10 +20,8 @@ class UserRepository {
     return user;
   };
 
-  // 유저 정보 변경
-  putUser = async (req, res, next) => {
-    return res.status(201).json({});
-  };
+  // // 유저 정보 변경
+  // putUser = async (req, res, next) => {};
 }
 
 module.exports = UserRepository;

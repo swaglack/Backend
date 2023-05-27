@@ -7,9 +7,21 @@ class WorkspaceController {
   // 워크스페이스 추가
   postWorkspace = async (req, res, next) => {
     try {
+      const {workspaceName, userName} = req.body;
+
+      const workspace = await this.workspaceService.postWorkspace(workspaceName, userName, res);
+      
       return res.status(201).json({});
     } catch (err) {
-      return err;
+      if (err instanceof CustomError) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
+      console.log(err);
+      return res.status(403).json({
+        message: "워크스페이스 추가에 실패했습니다.",
+      });
     }
   };
 

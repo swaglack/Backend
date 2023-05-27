@@ -4,13 +4,15 @@ const ChannelRepository = require("../repositories/channel.repository");
 class ChannelService {
   channelService = new ChannelRepository();
 
-  postChannel = async (req, res, next) => {
-    try {
-      return res.status(201).json({});
-    } catch (err) {
-      return err;
-    }
-  };
+  // Channel 생성
+  postChannel = async (channelName, userName, workspaceId, res, next) => {
+    const channel = await this.channelService.postChannel(
+      channelName,
+      userName,
+      workspaceId
+    );
+    return channel;
+  }
 }
 
 module.exports = ChannelService;

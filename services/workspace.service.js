@@ -2,15 +2,16 @@ const CustomError = require("../utils/error.utils");
 const WorkspaceRepository = require("../repositories/workspace.repository");
 
 class WorkspaceService {
-  userRepository = new WorkspaceRepository();
+  workspaceRepository = new WorkspaceRepository();
 
-  postUser = async (req, res, next) => {
-    try {
-      return res.status(201).json({});
-    } catch (err) {
-      return err;
-    }
-  };
+  // Workspace 생성
+  postWorkspace = async (workspaceName, userName, res, next) => {
+    const workspace = await this.workspaceRepository.postWorkspace(
+      workspaceName,
+      userName,
+    );
+    return workspace;
+  }
 }
 
 module.exports = WorkspaceService;

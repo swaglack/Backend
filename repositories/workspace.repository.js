@@ -1,11 +1,25 @@
+const Workspace = require("../schemas/workspace");
+
 class WorkspaceRepository {
-  postChannel = async (req, res, next) => {
-    try {
-      return res.status(201).json({});
-    } catch (err) {
-      return err;
-    }
+  // Workspace 생성
+  postWorkspace = async (workspaceName, userName) => {
+    const workspace = await Workspace.create({
+      workspaceName,
+      workspaceMaster: userName,
+      workspaceMember: [userName],
+    });
+    return workspace ;
   };
+
+  // // Workspace 생성
+  // postWorkspace = async (workspaceName, userName) => {
+  //   const workspace = await Workspace.create({
+  //     workspaceName,
+  //     workspaceMaster: userName,
+  //     workspaceMember: [userName],
+  //   });
+  //   return workspace ;
+  // };
 }
 
 module.exports = WorkspaceRepository;
