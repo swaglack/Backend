@@ -1,10 +1,28 @@
+// 스키마 가져오기
+const User = require("../schemas/user");
+
 class UserRepository {
-  postChannel = async (req, res, next) => {
-    try {
-      return res.status(201).json({ });
-    } catch (err) {
-      return err;
-    }
+  // 유저 조회
+  getUser = async (userName) => {
+    const user = await User.findOne({
+      userName,
+    });
+    return user;
+  };
+
+  // 유저 생성
+  postUser = async (userName, nickName, userPwd) => {
+    const user = await User.create({
+      userName,
+      nickName,
+      userPwd,
+    });
+    return user;
+  };
+
+  // 유저 정보 변경
+  putUser = async (req, res, next) => {
+    return res.status(201).json({});
   };
 }
 

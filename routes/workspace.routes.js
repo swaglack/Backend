@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const WorkspaceController = require("../controllers/workspace.controller")
+const WorkspaceController = require("../controllers/workspace.controller");
 const workspaceController = new WorkspaceController();
 
 // Workspace 라우터 정의
@@ -12,5 +12,5 @@ router.put("/:workspaceid", workspaceController.putWorkspace); // 인원 추가
 router.delete("/:workspaceid", workspaceController.deleteWorkspace); // 워크스페이스 삭제
 
 module.exports = {
-  router
+  router,
 };

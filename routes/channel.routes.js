@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const ChannelController = require("../controllers/channel.controller")
+const ChannelController = require("../controllers/channel.controller");
 const channelController = new ChannelController();
 
 // Channel 라우터 정의
@@ -13,5 +13,5 @@ router.put("/:channelid/chat", channelController.putChat); // 채널 채팅
 router.delete("/:channelid", channelController.deleteChannel); // 채널 삭제
 
 module.exports = {
-  router
+  router,
 };

@@ -1,20 +1,52 @@
 const mongoose = require("mongoose");
 
-// Channel 스키마 정의
-const channelSchema = new mongoose.Schema({
-  postId: {
-    type: String,
-    required: true,
-		unique: true,
+const Member = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
-  content: {
+  userName: {
     type: String,
+    ref: "User",
     required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
+    unique: true,
   },
 });
 
-module.exports = mongoose.model("Channel", channelSchema);
+// Channel 스키마 정의
+const ChannelSchema = new mongoose.Schema({
+  channelId: mongoose.Schema.Types.ObjectId,
+  channelName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  channelMaster: {
+    type: Member,
+    required: true,
+  },
+  channelMember: {
+    type: [Member],
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+});
+
+// ChannelSchema.virtual("channelId").get(function () {
+//   return this.channelId.toHexString();
+// });
+
+// ChannelSchema.set("toJSON", {
+//   virtuals: true,
+// });
+
+module.exports = mongoose.model("Channel", ChannelSchema);
