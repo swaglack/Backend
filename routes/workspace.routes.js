@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const WorkspaceController = require("../controllers/workspace.controller")
+const workspaceController = new WorkspaceController();
+
 // Workspace 라우터 정의
 router.post("/", workspaceController.postWorkspace); // 워크스페이스 추가
 router.get("/", workspaceController.getAllWorkspace); // 전체 워크스페이스 조회

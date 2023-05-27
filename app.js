@@ -18,18 +18,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api", routes);
 
+// 서버 에러시 잡아주는 에러처리 미들웨어
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("서버에러입니다. 관리자에게 문의 부탁드립니다.");
+});
+
 app.get("/", async (req, res) => {
   res.status(200).send("api서버 기본 페이지 입니다.");
 });
 
-const start = async () => {
-  try {
-    app.listen(port, () => {
-      console.log("Server is running. PORT :", port);
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-start();
+app.listen(port, () => {
+  console.log("Server is running. PORT :", port);
+});

@@ -30,7 +30,7 @@ SERVICE_PORT=[포트정보]
 # 프로젝트 초기 구성
 ```
 npm init
-npm install express jsonwebtoken dotenv mongoose
+npm install express jsonwebtoken dotenv mongoose cors
 npm install -D nodemon
 ```
 
