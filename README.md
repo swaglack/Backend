@@ -13,7 +13,7 @@
 ```
 
 # 디렉토리 구조
-image.png
+[image.png](https://user-images.githubusercontent.com/58283954/241258633-2b463d87-3b68-4993-b3a4-b736f40ae3ae.png)
 
 # dotenv
 ```
