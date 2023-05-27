@@ -30,8 +30,29 @@ SERVICE_PORT=[포트정보]
 # 프로젝트 초기 구성
 ```
 npm init
-npm install express jsonwebtoken dotenv mongoose
+npm install express jsonwebtoken dotenv mongoose cors
 npm install -D nodemon
+```
+
+# prettier 준비 (코드 서식 통일)
+```
+# 1. 모듈 설치
+npm i prettier -D
+
+# 2. 설정 파일 추가
+module.exports = {
+  trailingComma: 'es5',
+  tabWidth: 2,
+  semi: true,
+  singleQuote: false,
+  arrowParens: 'always',
+};
+
+# 3. package.json 파일 "script" 항목 아래에 다음 항목 추가
+"prettify": "prettier --write *.js **/*.js"
+
+# 4. 실행
+npm run prettify
 ```
 
 # .gitignore 파일 추가
