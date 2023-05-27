@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-// LogIn 라우터 정의
-router.post("/", logInController.logIn);
+// 로그인 코드 작성
 
 module.exports = {
-  router
+  router,
 };
