@@ -23,12 +23,12 @@ class ChannelController {
       await this.channelService.postChannel(channelName, userName, workspaceId, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -49,12 +49,12 @@ class ChannelController {
       const channel = await this.channelService.getAllChannel(workspaceId, res);
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -76,12 +76,12 @@ class ChannelController {
       const channel = await this.channelService.getOneChannel(workspaceId, channelId, res);
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -104,12 +104,12 @@ class ChannelController {
       const channel = await this.channelService.putUserToChannel(workspaceId, channelId, newMember, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -131,12 +131,12 @@ class ChannelController {
       const channel = await this.channelService.deleteChannel(workspaceId, channelId, res);
       return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };

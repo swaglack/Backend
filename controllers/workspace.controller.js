@@ -22,12 +22,12 @@ class WorkspaceController {
       await this.workspaceService.postWorkspace(workspaceName, userName, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -38,12 +38,12 @@ class WorkspaceController {
       const workspace = await this.workspaceService.getAllWorkspace();
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -64,12 +64,12 @@ class WorkspaceController {
       const workspace = await this.workspaceService.getOneWorkspace(workspaceId);
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -91,12 +91,12 @@ class WorkspaceController {
       await this.workspaceService.putUserToWorkspace(workspaceId, newMember);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -117,12 +117,12 @@ class WorkspaceController {
       await this.workspaceService.deleteWorkspace(workspaceId);
       return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };

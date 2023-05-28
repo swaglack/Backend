@@ -22,12 +22,12 @@ class UserController {
 
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -53,12 +53,12 @@ class UserController {
 
       return res.status(StatusCodes.OK).json({Authorization: `Bearer ${token}`});
     } catch (err) {
+      console.error(err);
       if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
