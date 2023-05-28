@@ -1,4 +1,4 @@
-const CustomError = require("../utils/error.utils");
+const ErrorUtils = require("../utils/error.utils");
 const UserRepository = require("../repositories/user.repository");
 
 class UserService {

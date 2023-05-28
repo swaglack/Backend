@@ -22,16 +22,13 @@ const ChannelSchema = new mongoose.Schema({
   },
   channelChat: {
     type: [String],
-    required: false,
   },
   createdAt: {
     type: Date,
-    required: true,
     default: Date.now,
   },
   updatedAt: {
     type: Date,
-    required: true,
     default: Date.now,
   },
 });

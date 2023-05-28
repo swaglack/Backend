@@ -30,7 +30,7 @@ SERVICE_PORT=[포트정보]
 # 프로젝트 초기 구성
 ```
 npm init
-npm install express jsonwebtoken dotenv mongoose cors
+npm install express jsonwebtoken dotenv mongoose cors http-status-codes
 npm install -D nodemon
 ```
 
@@ -64,8 +64,22 @@ npm install -D swagger-jsdoc swagger-ui-express
 https://any-ting.tistory.com/105
 ```
 
-# 에러 핸들러 클래스로 만들어서 하면 좋음
+# 에러 핸들러 클래스
+```
+utils/error.utils.js에 생성
 
+상태 메시지 및 상태 코드 예시
+StatusCodes.OK: 200
+StatusCodes.CREATED: 201
+StatusCodes.NO_CONTENT: 204
+StatusCodes.BAD_REQUEST: 400
+StatusCodes.UNAUTHORIZED: 401
+StatusCodes.FORBIDDEN: 403
+StatusCodes.NOT_FOUND: 404
+StatusCodes.METHOD_NOT_ALLOWED: 405
+StatusCodes.INTERNAL_SERVER_ERROR: 500
+StatusCodes.SERVICE_UNAVAILABLE: 503
+```
 
 # 서버 구성
 ```

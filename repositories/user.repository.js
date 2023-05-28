@@ -20,8 +20,15 @@ class UserRepository {
     return user;
   };
 
-  // // 유저 정보 변경
-  // putUser = async (req, res, next) => {};
+  // 유저 정보 변경
+  putUser = async (userName, updatedData) => {
+    const user = await User.findOneAndUpdate(
+      { userName }, 
+      updatedData, 
+      { new: true, }
+    );
+    return user;
+  };
 }
 
 module.exports = UserRepository;

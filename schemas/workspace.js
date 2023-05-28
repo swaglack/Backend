@@ -9,7 +9,7 @@ const WorkspaceSchema = new mongoose.Schema({
   },
   workspaceMaster: {
     type: String,
-    require: true,
+    required: true,
   },
   workspaceMember: {
     type: [String],
@@ -20,12 +20,10 @@ const WorkspaceSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    required: true,
     default: Date.now,
   },
   updatedAt: {
     type: Date,
-    required: true,
     default: Date.now,
   },
 });

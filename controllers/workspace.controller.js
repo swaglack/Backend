@@ -1,4 +1,5 @@
-const CustomError = require("../utils/error.utils");
+const { StatusCodes } = require("http-status-codes"); // StatusCodes를 사용하기 위해 http-status-codes 패키지 추가
+const ErrorUtils = require("../utils/error.utils");
 const WorkspaceService = require("../services/workspace.service");
 
 class WorkspaceController {
@@ -7,57 +8,100 @@ class WorkspaceController {
   // 워크스페이스 추가
   postWorkspace = async (req, res, next) => {
     try {
-      const {workspaceName, userName} = req.body;
+      const { workspaceName, userName } = req.body;
 
-      const workspace = await this.workspaceService.postWorkspace(workspaceName, userName, res);
-      
-      return res.status(201).json({});
-    } catch (err) {
-      if (err instanceof CustomError) {
-        return res.status(err.statusCode).json({
-          message: err.message,
-        });
+      // 입력 데이터에 대한 유효성 검사
+      if (!workspaceName || !userName) {
+        return ErrorUtils.handleErrorResponse(
+          res,
+          StatusCodes.BAD_REQUEST,
+          "workspaceName과 userName은 필수 입력값입니다."
+        );
       }
+
+      await this.workspaceService.postWorkspace(workspaceName, userName, res);
+      return res.status(StatusCodes.CREATED).end();
+    } catch (err) {
       console.log(err);
-      return res.status(403).json({
-        message: "워크스페이스 추가에 실패했습니다.",
-      });
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 전체 워크스페이스 조회
   getAllWorkspace = async (req, res, next) => {
     try {
-      return res.status(201).json({});
+      const workspace = await this.workspaceService.getAllWorkspace();
+      return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
-      return err;
+      console.log(err);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 특정 워크스페이스 조회
   getOneWorkspace = async (req, res, next) => {
     try {
-      return res.status(201).json({});
+      const workspaceId = req.params.workspaceId;
+
+      // 입력 데이터에 대한 유효성 검사
+      if (!workspaceId) {
+        return ErrorUtils.handleErrorResponse(
+          res,
+          StatusCodes.BAD_REQUEST,
+          "workspaceId는 필수 입력값입니다."
+        );
+      }
+
+      const workspace = await this.workspaceService.getOneWorkspace(workspaceId);
+      return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
-      return err;
+      console.error(err);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 인원 추가
-  putWorkspace = async (req, res, next) => {
+  putUserToWorkspace = async (req, res, next) => {
     try {
-      return res.status(201).json({});
+      const workspaceId = req.params.workspaceId;
+      const newMember = req.body.nickName;
+
+      // 입력 데이터에 대한 유효성 검사
+      if (!workspaceId || !newMember) {
+        return ErrorUtils.handleErrorResponse(
+          res,
+          StatusCodes.BAD_REQUEST,
+          "workspaceId와 nickName은 필수 입력값입니다."
+        );
+      }
+
+      await this.workspaceService.putUserToWorkspace(workspaceId, newMember);
+      return res.status(StatusCodes.CREATED).end();
     } catch (err) {
-      return err;
+      console.error(err);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 워크스페이스 삭제
   deleteWorkspace = async (req, res, next) => {
     try {
-      return res.status(201).json({});
+      const workspaceId = req.params.workspaceId;
+
+      // 입력 데이터에 대한 유효성 검사
+      if (!workspaceId) {
+        return ErrorUtils.handleErrorResponse(
+          res,
+          StatusCodes.BAD_REQUEST,
+          "workspaceId는 필수 입력값입니다."
+        );
+      }
+
+      await this.workspaceService.deleteWorkspace(workspaceId);
+      return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
-      return err;
+      console.error(err);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 }
