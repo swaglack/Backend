@@ -8,7 +8,8 @@ class ChannelController {
   // 채널 추가
   postChannel = async (req, res, next) => {
     try {
-      const {channelName, userName } = req.body;
+      const userName = res.locals.user.userName;
+      const channelName = req.body.channelName;
       const workspaceId = req.params.workspaceId;
 
       // 입력 데이터에 대한 유효성 검사

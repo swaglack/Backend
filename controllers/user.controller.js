@@ -42,9 +42,13 @@ class UserController {
         );
       }
 
-      await this.userService.logIn(userName, userPwd, res);
+      // 유저 로그인 및 토큰 생성
+      const token = await this.userService.logIn(userName, userPwd, res);
 
-      return res.status(StatusCodes.OK).end();
+      // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
+      res.header("Authorization", `Bearer ${token}`, { secure: false });
+
+      return res.status(StatusCodes.OK).json({Authorization: `Bearer ${token}`});
     } catch (err) {
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);

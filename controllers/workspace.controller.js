@@ -8,7 +8,8 @@ class WorkspaceController {
   // 워크스페이스 추가
   postWorkspace = async (req, res, next) => {
     try {
-      const { workspaceName, userName } = req.body;
+      const userName = res.locals.user.userName;
+      const workspaceName = req.body.workspaceName;
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceName || !userName) {

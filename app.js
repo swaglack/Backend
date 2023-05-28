@@ -1,9 +1,13 @@
+// Error 처리 핸들러 호출
+const ErrorUtils = require("./utils/error.utils");
 // dotenv 호출
 require("dotenv").config();
 // express 모듈 사용
 const express = require("express");
 // routes/index.js 파일에서 라우터 정보 가져오기
 const routes = require("./routes");
+// 로깅 미들웨어
+const logMiddleware = require("./middlewares/log.middleware");
 // cors 미들웨어 추가
 const cors = require("cors");
 
@@ -17,15 +21,15 @@ connect();
 // cors 미들웨어 추가, 특정 도메인만 허용하기 위해서는 true 값에 도메인 정보 입력 필요
 // ex> "http://아이피정보"
 app.use(cors({ origin: process.env.FRONTEND_DOMAIN || true }));
-
+app.use(logMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api", routes);
 
-// 서버 에러시 잡아주는 에러처리 미들웨어
+// 에러처리 미들웨어
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send("서버에러입니다. 관리자에게 문의 부탁드립니다.");
+  console.error(err);
+  return ErrorUtils.handleInternalServerError(res);
 });
 
 app.get("/", async (req, res) => {

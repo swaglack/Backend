@@ -39,7 +39,7 @@ class ChannelService {
 
   // 전체 Channel 정보 가저오기
   getAllChannel = async (workspaceId, res, next) => {
-    const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId, channelName)
+    const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId);
     if (!workspace) {
       return ErrorUtils.handleErrorResponse(
         res,
