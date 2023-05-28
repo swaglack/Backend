@@ -14,8 +14,7 @@ class ChannelController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!channelName || !userName) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "channelName과 userName은 필수 입력값입니다."
         );
@@ -24,6 +23,11 @@ class ChannelController {
       await this.channelService.postChannel(channelName, userName, workspaceId, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -36,8 +40,7 @@ class ChannelController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId는 필수 입력값입니다."
         );
@@ -46,6 +49,11 @@ class ChannelController {
       const channel = await this.channelService.getAllChannel(workspaceId, res);
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -59,8 +67,7 @@ class ChannelController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId || !channelId) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId와 channelId는 필수 입력값입니다."
         );
@@ -69,6 +76,11 @@ class ChannelController {
       const channel = await this.channelService.getOneChannel(workspaceId, channelId, res);
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -83,8 +95,7 @@ class ChannelController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId || !channelId || !newMember) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId, channelId, nickName은 필수 입력값입니다."
         );
@@ -93,6 +104,11 @@ class ChannelController {
       const channel = await this.channelService.putUserToChannel(workspaceId, channelId, newMember, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -106,8 +122,7 @@ class ChannelController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId || !channelId) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId와 channelId는 필수 입력값입니다."
         );
@@ -116,6 +131,11 @@ class ChannelController {
       const channel = await this.channelService.deleteChannel(workspaceId, channelId, res);
       return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }

@@ -12,8 +12,7 @@ class UserController {
 
       // 입력값 유효성 검사
       if (!userName || !nickName || !userPwd) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "userName, nickName, userPwd는 필수 입력값입니다."
         );
@@ -23,6 +22,11 @@ class UserController {
 
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -33,10 +37,9 @@ class UserController {
     try {
       const { userName, userPwd } = req.body;
 
-       // 입력값 유효성 검사
-       if (!userName || !userPwd) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+      // 입력값 유효성 검사
+      if (!userName || !userPwd) {
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "userName, userPwd는 필수 입력값입니다."
         );
@@ -46,10 +49,15 @@ class UserController {
       const token = await this.userService.logIn(userName, userPwd, res);
 
       // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
-      res.header("Authorization", `Bearer ${token}`, { secure: false });
+      res.set("Authorization", `Bearer ${token}`, { secure: false })
 
       return res.status(StatusCodes.OK).json({Authorization: `Bearer ${token}`});
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }

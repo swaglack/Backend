@@ -11,8 +11,7 @@ class ChannelService {
     // 워크스페이스에 채널 정보 반영
     const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId, channelName)
     if (!workspace) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
         "워크스페이스에 채널 정보 반영 실패"
       );
@@ -25,10 +24,9 @@ class ChannelService {
       userName,
     );
     
-    // 채널이 정상
+    // 채널이 정상적으로 생성되지 않음
     if (!channel) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
         "채널 생성 실패"
       );
@@ -41,8 +39,7 @@ class ChannelService {
   getAllChannel = async (workspaceId, res, next) => {
     const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId);
     if (!workspace) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
         "워크스페이스에 채널 정보 반영 실패"
       );
@@ -62,6 +59,14 @@ class ChannelService {
   // 특정 Channel 정보 가저오기
   getOneChannel = async (workspaceId, channelId, res, next) => {
     const channel = await this.channelRepository.getOneChannel(channelId);
+
+    // 해당 채널이 없는 경우 에러
+    if (!channel) {
+      throw new ErrorUtils(
+        StatusCodes.BAD_REQUEST,
+        "해당 채널이 존재하지 않습니다."
+      );
+    }
 
     const filteredChannel = {
       channelName: channel.channelName,

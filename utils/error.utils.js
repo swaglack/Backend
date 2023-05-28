@@ -1,10 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 
 class ErrorUtils {
-  static handleErrorResponse(res, statusCode, message) {
-    return res.status(statusCode).json({
-      message: message,
-    });
+  constructor(statusCode, message) {
+    this.statusCode = statusCode;
+    this.message = message
   }
 
   static handleInternalServerError(res) {
@@ -13,6 +12,12 @@ class ErrorUtils {
       StatusCodes.INTERNAL_SERVER_ERROR,
       "서버에서 예상치 못한 오류가 발생했습니다."
     );
+  }
+
+  handleErrorResponse(statusCode, message) {
+    return res.status(statusCode).json({
+      message: message,
+    });
   }
 }
 

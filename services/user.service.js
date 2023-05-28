@@ -13,8 +13,7 @@ class UserService {
 
     // User 중복 검사
     if (getUser) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
         "요청 정보가 유효하지 않습니다.(닉네임 중복)"
       );
@@ -37,8 +36,7 @@ class UserService {
 
     // User 아이디 및 비밀번호 유효성 검사
     if (!user || userPwd !== user.userPwd) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
         "요청 정보가 유효하지 않습니다.(아이디 or 비밀번호 불일치)"
       );

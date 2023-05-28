@@ -13,8 +13,7 @@ class WorkspaceController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceName || !userName) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceName과 userName은 필수 입력값입니다."
         );
@@ -23,7 +22,12 @@ class WorkspaceController {
       await this.workspaceService.postWorkspace(workspaceName, userName, res);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
-      console.log(err);
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
+      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -34,7 +38,12 @@ class WorkspaceController {
       const workspace = await this.workspaceService.getAllWorkspace();
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
-      console.log(err);
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
+      console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
   };
@@ -46,8 +55,7 @@ class WorkspaceController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId는 필수 입력값입니다."
         );
@@ -56,6 +64,11 @@ class WorkspaceController {
       const workspace = await this.workspaceService.getOneWorkspace(workspaceId);
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -69,8 +82,7 @@ class WorkspaceController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId || !newMember) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId와 nickName은 필수 입력값입니다."
         );
@@ -79,6 +91,11 @@ class WorkspaceController {
       await this.workspaceService.putUserToWorkspace(workspaceId, newMember);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
@@ -91,8 +108,7 @@ class WorkspaceController {
 
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId) {
-        return ErrorUtils.handleErrorResponse(
-          res,
+        throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
           "workspaceId는 필수 입력값입니다."
         );
@@ -101,6 +117,11 @@ class WorkspaceController {
       await this.workspaceService.deleteWorkspace(workspaceId);
       return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
+      if (err instanceof ErrorUtils) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
       console.error(err);
       return ErrorUtils.handleInternalServerError(res);
     }
