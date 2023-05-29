@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 class ErrorUtils {
   constructor(statusCode, message) {
     this.statusCode = statusCode;
-    this.message = message
+    this.message = message;
   }
 
   static handleInternalServerError(res) {

@@ -13,7 +13,7 @@ class WorkspaceRepository {
 
   // 전체 Workspace 정보 가져오기
   getAllWorkspace = async () => {
-    const workspace = await Workspace.find({}).sort({updatedAt : -1});
+    const workspace = await Workspace.find({}).sort({ updatedAt: -1 });
     return workspace;
   };
 
@@ -26,9 +26,9 @@ class WorkspaceRepository {
   // Workspace 수정 - 채널 추가
   putChannelToWorkspace = async (workspaceId, newChannel) => {
     const workspace = await Workspace.findByIdAndUpdate(
-      { _id: workspaceId},  
+      { _id: workspaceId },
       { $push: { workspaceChannel: newChannel } },
-      { new: true },
+      { new: true }
     );
     return workspace;
   };
@@ -36,9 +36,9 @@ class WorkspaceRepository {
   // Workspace 수정 - 인원 추가
   putUserToWorkspace = async (workspaceId, newMember) => {
     const workspace = await Workspace.findByIdAndUpdate(
-      { _id: workspaceId}, 
+      { _id: workspaceId },
       { $push: { workspaceMember: newMember } },
-      { new: true },
+      { new: true }
     );
     return workspace;
   };
@@ -46,8 +46,8 @@ class WorkspaceRepository {
   // Workspace 삭제
   deleteWorkspace = async (workspaceId) => {
     const workspace = await Workspace.findByIdAndRemove(
-      { _id: workspaceId},
-      { new: true },
+      { _id: workspaceId },
+      { new: true }
     );
     return workspace;
   };

@@ -2,7 +2,7 @@ const Channel = require("../schemas/channel");
 
 class ChannelRepository {
   // Channel 생성
-  postChannel = async (channelName, workspaceId, userName ) => {
+  postChannel = async (channelName, workspaceId, userName) => {
     const channel = await Channel.create({
       channelName,
       workspaceId,
@@ -14,7 +14,7 @@ class ChannelRepository {
 
   // 전체 Channel 정보 가져오기
   getAllChannel = async (workspaceId) => {
-    const channel = await Channel.find({ workspaceId }).sort({updatedAt : -1});
+    const channel = await Channel.find({ workspaceId }).sort({ updatedAt: -1 });
     return channel;
   };
 
@@ -27,9 +27,9 @@ class ChannelRepository {
   // Channel 수정 - 인원 추가
   putUserToChannel = async (channelId, newMember) => {
     const channel = await Channel.findByIdAndUpdate(
-      { _id: channelId}, 
+      { _id: channelId },
       { $push: { channelMember: newMember } },
-      { new: true },
+      { new: true }
     );
     return channel;
   };
@@ -37,8 +37,8 @@ class ChannelRepository {
   // Channel 삭제
   deleteChannel = async (channelId) => {
     const channel = await Channel.findByIdAndRemove(
-      { _id: channelId}, 
-      { new: true },
+      { _id: channelId },
+      { new: true }
     );
     return channel;
   };

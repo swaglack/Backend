@@ -9,6 +9,6 @@ module.exports = async (req, res, next) => {
     next();
   } catch (err) {
     console.error(err);
-		return ErrorUtils.handleInternalServerError(res);
+    return ErrorUtils.handleInternalServerError(res);
   }
 };

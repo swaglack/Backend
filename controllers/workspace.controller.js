@@ -61,7 +61,9 @@ class WorkspaceController {
         );
       }
 
-      const workspace = await this.workspaceService.getOneWorkspace(workspaceId);
+      const workspace = await this.workspaceService.getOneWorkspace(
+        workspaceId
+      );
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
       console.error(err);

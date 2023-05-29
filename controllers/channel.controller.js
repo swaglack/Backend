@@ -20,7 +20,12 @@ class ChannelController {
         );
       }
 
-      await this.channelService.postChannel(channelName, userName, workspaceId, res);
+      await this.channelService.postChannel(
+        channelName,
+        userName,
+        workspaceId,
+        res
+      );
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
       console.error(err);
@@ -73,7 +78,11 @@ class ChannelController {
         );
       }
 
-      const channel = await this.channelService.getOneChannel(workspaceId, channelId, res);
+      const channel = await this.channelService.getOneChannel(
+        workspaceId,
+        channelId,
+        res
+      );
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
       console.error(err);
@@ -101,7 +110,12 @@ class ChannelController {
         );
       }
 
-      const channel = await this.channelService.putUserToChannel(workspaceId, channelId, newMember, res);
+      const channel = await this.channelService.putUserToChannel(
+        workspaceId,
+        channelId,
+        newMember,
+        res
+      );
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
       console.error(err);
@@ -128,7 +142,11 @@ class ChannelController {
         );
       }
 
-      const channel = await this.channelService.deleteChannel(workspaceId, channelId, res);
+      const channel = await this.channelService.deleteChannel(
+        workspaceId,
+        channelId,
+        res
+      );
       return res.status(StatusCodes.NO_CONTENT).end();
     } catch (err) {
       console.error(err);

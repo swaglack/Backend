@@ -49,9 +49,11 @@ class UserController {
       const token = await this.userService.logIn(userName, userPwd, res);
 
       // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
-      res.set("Authorization", `Bearer ${token}`, { secure: false })
+      res.set("Authorization", `Bearer ${token}`, { secure: false });
 
-      return res.status(StatusCodes.OK).json({Authorization: `Bearer ${token}`});
+      return res
+        .status(StatusCodes.OK)
+        .json({ Authorization: `Bearer ${token}` });
     } catch (err) {
       console.error(err);
       if (err instanceof ErrorUtils) {

@@ -22,11 +22,9 @@ class UserRepository {
 
   // 유저 정보 변경
   putUser = async (userName, updatedData) => {
-    const user = await User.findOneAndUpdate(
-      { userName }, 
-      updatedData, 
-      { new: true, }
-    );
+    const user = await User.findOneAndUpdate({ userName }, updatedData, {
+      new: true,
+    });
     return user;
   };
 }

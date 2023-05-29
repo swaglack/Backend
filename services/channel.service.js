@@ -9,7 +9,10 @@ class ChannelService {
   // Channel 생성
   postChannel = async (channelName, userName, workspaceId, res, next) => {
     // 워크스페이스에 채널 정보 반영
-    const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId, channelName)
+    const workspace = await this.workspaceRepository.putChannelToWorkspace(
+      workspaceId,
+      channelName
+    );
     if (!workspace) {
       throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
@@ -21,23 +24,22 @@ class ChannelService {
     const channel = await this.channelRepository.postChannel(
       channelName,
       workspaceId,
-      userName,
+      userName
     );
-    
+
     // 채널이 정상적으로 생성되지 않음
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "채널 생성 실패"
-      );
+      throw new ErrorUtils(StatusCodes.BAD_REQUEST, "채널 생성 실패");
     }
 
     return channel;
-  }
+  };
 
   // 전체 Channel 정보 가저오기
   getAllChannel = async (workspaceId, res, next) => {
-    const workspace = await this.workspaceRepository.putChannelToWorkspace(workspaceId);
+    const workspace = await this.workspaceRepository.putChannelToWorkspace(
+      workspaceId
+    );
     if (!workspace) {
       throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
@@ -47,14 +49,14 @@ class ChannelService {
 
     const channelList = await this.channelRepository.getAllChannel(workspaceId);
 
-    const filteredChannelList = channelList.map(channel => ({
+    const filteredChannelList = channelList.map((channel) => ({
       channelName: channel.channelName,
       channelId: channel.channelId,
-      userCount: channel.channelMember.length
+      userCount: channel.channelMember.length,
     }));
 
     return filteredChannelList;
-  }
+  };
 
   // 특정 Channel 정보 가저오기
   getOneChannel = async (workspaceId, channelId, res, next) => {
@@ -71,23 +73,26 @@ class ChannelService {
     const filteredChannel = {
       channelName: channel.channelName,
       channelMember: channel.channelMember,
-      channelChat: channel.channelChat, 
+      channelChat: channel.channelChat,
     };
 
     return filteredChannel;
-  }
+  };
 
   // Channel 수정 - 인원 추가
   putUserToChannel = async (workspaceId, channelId, newMember, res, next) => {
-    const channel = await this.channelRepository.putUserToChannel(channelId, newMember);
+    const channel = await this.channelRepository.putUserToChannel(
+      channelId,
+      newMember
+    );
     return channel;
-  }
+  };
 
   // Channel 삭제
   deleteChannel = async (workspaceId, channelId, res, next) => {
     const channel = await this.channelRepository.deleteChannel(channelId);
     return channel;
-  }
+  };
 }
 
 module.exports = ChannelService;

@@ -29,22 +29,22 @@ class TokenUtil {
 }
 
 class VerifyToken {
-	constructor(token) {
+  constructor(token) {
     this.token = token;
   }
 
-	// Access Token 검증 함수
-	validateToken() {
-		try {
-			const payload = jwt.verify(this.token, secretKey);
-			return payload;
-		} catch (error) {
-			return false;
-		}
-	}
+  // Access Token 검증 함수
+  validateToken() {
+    try {
+      const payload = jwt.verify(this.token, secretKey);
+      return payload;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 module.exports = {
-	TokenUtil, 
-	VerifyToken
-}
+  TokenUtil,
+  VerifyToken,
+};
