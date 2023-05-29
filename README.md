@@ -13,7 +13,7 @@
 ```
 
 # 디렉토리 구조
-![image](https://github.com/swaglack/Backend/assets/58283954/4ac5e324-7302-41c1-9f89-ac7a137b47fc)
+![image](https://github.com/swaglack/Backend/assets/58283954/2b463d87-3b68-4993-b3a4-b736f40ae3ae)
 
 # dotenv
 ```
@@ -119,5 +119,3 @@ pm2 start app.js
 # pm2 종료
 pm2 delete 0 
 ```
-
-
