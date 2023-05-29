@@ -10,6 +10,7 @@ class ChannelController {
       return err;
     }
   };
+
 }
 
 module.exports = ChannelController;
