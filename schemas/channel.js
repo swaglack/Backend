@@ -20,7 +20,7 @@ const ChannelSchema = new mongoose.Schema({
     required: true,
   },
   channelChat: {
-    type: [String],
+    type: [Object],
   },
   createdAt: {
     type: Date,

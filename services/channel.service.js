@@ -189,6 +189,29 @@ class ChannelService {
     await this.channelRepository.deleteChannel(channelId);
     // return channel;
   };
+
+  // Channel 수정 - 채팅 추가
+  putChatToChannel = async (data, workspaceName, channelName, res, next) => {
+    const channel = await this.channelRepository.getOneChannelbyName2(channelName, workspaceName);
+
+    // 채널이 존재하지 않음
+    if (!channel) {
+      throw new ErrorUtils(
+        StatusCodes.NOT_FOUND,
+        "채널이 존재하지 않습니다."
+      );
+    }
+    console.log(data.name)
+    console.log(data.message)
+
+    if (channel.channelChat[0]) {
+      await this.channelRepository.putChatToChannel(data, channelName);
+    } else {
+      await this.channelRepository.postChatToChannel(data, channelName);
+    }
+  };
 }
+
+
 
 module.exports = ChannelService;

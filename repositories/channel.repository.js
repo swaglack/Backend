@@ -24,6 +24,12 @@ class ChannelRepository {
     return channel;
   };
 
+  // 특정 Channel 정보 가져오기 - channelName, workspaceId
+  getOneChannelbyName2 = async ( channelName ) => {
+    const channel = await Channel.findOne({ channelName });
+    return channel;
+  };
+
   // 특정 Channel 정보 가져오기 - channelId
   getOneChannelbyId = async (channelId) => {
     const channel = await Channel.findOne({ _id: channelId });
@@ -48,6 +54,34 @@ class ChannelRepository {
   deleteChannel = async (channelId) => {
     const channel = await Channel.findByIdAndRemove(
       { _id: channelId },
+      { new: true }
+    );
+    return channel;
+  };
+
+  // 채팅 생성
+  postChatToChannel = async (channelChat, channelName) => {
+    const currentTime = new Date();
+    const channel = await Channel.findOneAndUpdate(
+      { channelName },
+      { 
+        channelChat,
+        updatedAt: currentTime
+      },
+      { new: true }
+    );
+    return channel;
+  };
+
+  // 채팅 추가
+  putChatToChannel = async (channelChat, channelName) => {
+    const currentTime = new Date();
+    const channel = await Channel.findOneAndUpdate(
+      { channelName },
+      { 
+        $push: { channelChat },
+        updatedAt: currentTime
+      },
       { new: true }
     );
     return channel;
