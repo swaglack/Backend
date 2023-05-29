@@ -6,6 +6,14 @@ class ErrorUtils {
     this.message = message;
   }
 
+  static handleUnexpectedError(res) {
+    return this.handleErrorResponse(
+      res,
+      StatusCodes.NOT_ACCEPTABLE,
+      "기타 오류"
+    );
+  }
+
   static handleInternalServerError(res) {
     return this.handleErrorResponse(
       res,

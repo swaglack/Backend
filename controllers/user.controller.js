@@ -28,7 +28,7 @@ class UserController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -61,7 +61,7 @@ class UserController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 }

@@ -17,17 +17,27 @@ class WorkspaceRepository {
     return workspace;
   };
 
-  // 특정 Workspace 정보 가져오기
-  getOneWorkspace = async (workspaceId) => {
+  // 특정 Workspace 정보 가져오기(Id로 조회)
+  getOneWorkspaceById = async (workspaceId) => {
     const workspace = await Workspace.findOne({ _id: workspaceId });
+    return workspace;
+  };
+
+  // 특정 Workspace 정보 가져오기(workspaceName으로 조회)
+  getOneWorkspaceByName = async (workspaceName) => {
+    const workspace = await Workspace.findOne({ workspaceName });
     return workspace;
   };
 
   // Workspace 수정 - 채널 추가
   putChannelToWorkspace = async (workspaceId, newChannel) => {
+    const currentTime = new Date();
     const workspace = await Workspace.findByIdAndUpdate(
       { _id: workspaceId },
-      { $push: { workspaceChannel: newChannel } },
+      { 
+        $push: { workspaceChannel: newChannel },
+        updatedAt: currentTime
+      },
       { new: true }
     );
     return workspace;
@@ -35,9 +45,13 @@ class WorkspaceRepository {
 
   // Workspace 수정 - 인원 추가
   putUserToWorkspace = async (workspaceId, newMember) => {
+    const currentTime = new Date();
     const workspace = await Workspace.findByIdAndUpdate(
       { _id: workspaceId },
-      { $push: { workspaceMember: newMember } },
+      { 
+        $push: { workspaceMember: newMember },
+        updatedAt: currentTime
+      },
       { new: true }
     );
     return workspace;

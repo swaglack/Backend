@@ -13,10 +13,20 @@ class ChannelController {
       const workspaceId = req.params.workspaceId;
 
       // 입력 데이터에 대한 유효성 검사
-      if (!channelName || !userName) {
+      if (!channelName || !userName || !workspaceId) {
         throw new ErrorUtils(
           StatusCodes.BAD_REQUEST,
-          "channelName과 userName은 필수 입력값입니다."
+          "channelName, userName, workspaceId는 필수 입력값입니다."
+        );
+      }
+
+      // params의 값이 objectId의 형식에 맞는지 검사
+      // 24개의 문자로 구성된 16진수 문자열 인지 확인
+      const isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "workspaceId가 유효하지 않습니다."
         );
       }
 
@@ -34,7 +44,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -51,6 +61,16 @@ class ChannelController {
         );
       }
 
+      // params의 값이 objectId의 형식에 맞는지 검사
+      // 24개의 문자로 구성된 16진수 문자열 인지 확인
+      const isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "workspaceId가 유효하지 않습니다."
+        );
+      }
+
       const channel = await this.channelService.getAllChannel(workspaceId, res);
       return res.status(StatusCodes.OK).json(channel);
     } catch (err) {
@@ -60,7 +80,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -78,6 +98,23 @@ class ChannelController {
         );
       }
 
+      // params의 값이 objectId의 형식에 맞는지 검사
+      // 24개의 문자로 구성된 16진수 문자열 인지 확인
+      let isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "workspaceId가 유효하지 않습니다."
+        );
+      }
+      isValidHex = /^[0-9a-fA-F]{24}$/.test(channelId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "channelId가 유효하지 않습니다."
+        );
+      }
+
       const channel = await this.channelService.getOneChannel(
         workspaceId,
         channelId,
@@ -91,7 +128,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -110,7 +147,24 @@ class ChannelController {
         );
       }
 
-      const channel = await this.channelService.putUserToChannel(
+      // params의 값이 objectId의 형식에 맞는지 검사
+      // 24개의 문자로 구성된 16진수 문자열 인지 확인
+      let isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "workspaceId가 유효하지 않습니다."
+        );
+      }
+      isValidHex = /^[0-9a-fA-F]{24}$/.test(channelId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "channelId가 유효하지 않습니다."
+        );
+      }
+
+      await this.channelService.putUserToChannel(
         workspaceId,
         channelId,
         newMember,
@@ -124,7 +178,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -142,7 +196,24 @@ class ChannelController {
         );
       }
 
-      const channel = await this.channelService.deleteChannel(
+      // params의 값이 objectId의 형식에 맞는지 검사
+      // 24개의 문자로 구성된 16진수 문자열 인지 확인
+      let isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "workspaceId가 유효하지 않습니다."
+        );
+      }
+      isValidHex = /^[0-9a-fA-F]{24}$/.test(channelId);
+      if (!isValidHex) {
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "channelId가 유효하지 않습니다."
+        );
+      }
+
+      await this.channelService.deleteChannel(
         workspaceId,
         channelId,
         res
@@ -155,7 +226,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 }

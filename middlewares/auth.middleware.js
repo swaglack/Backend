@@ -12,10 +12,9 @@ module.exports = async (req, res, next) => {
   try {
     // req.header에 토큰 정보가 있는지 확인
     if (req.headers.authorization === undefined) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.UNAUTHORIZED,
-        "로그인 후 이용 가능한 기능입니다.1"
+        "로그인 후 이용 가능한 기능입니다.(request 헤더에 토큰 정보가 없음)"
       );
     }
 
@@ -23,10 +22,9 @@ module.exports = async (req, res, next) => {
     const token = req.headers.authorization;
     const [AuthType, AuthToken] = (token ?? "").split(" ");
     if (!AuthToken || AuthType !== "Bearer") {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.UNAUTHORIZED,
-        "로그인 후 이용 가능한 기능입니다.2"
+        "로그인 후 이용 가능한 기능입니다.(토큰 형식이 올바르지 않음)"
       );
     }
 
@@ -36,10 +34,9 @@ module.exports = async (req, res, next) => {
     // 토큰 유효성 검증
     const isTokenValidate = verifyToken.validateToken();
     if (!isTokenValidate) {
-      return ErrorUtils.handleErrorResponse(
-        res,
+      throw new ErrorUtils(
         StatusCodes.UNAUTHORIZED,
-        "로그인 후 이용 가능한 기능입니다.3"
+        "로그인 후 이용 가능한 기능입니다.(토큰 유효성 검사에 실패)"
       );
     }
 
@@ -49,10 +46,12 @@ module.exports = async (req, res, next) => {
     res.locals.user = user;
     next();
   } catch (err) {
-    return ErrorUtils.handleErrorResponse(
-      res,
-      StatusCodes.UNAUTHORIZED,
-      "로그인 후 이용 가능한 기능입니다.4"
-    );
+    console.error(err);
+    if (err instanceof ErrorUtils) {
+      return res.status(err.statusCode).json({
+        message: err.message,
+      });
+    }
+    return ErrorUtils.handleUnexpectedError(res);
   }
 };

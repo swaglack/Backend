@@ -15,7 +15,7 @@ class UserService {
     if (getUser) {
       throw new ErrorUtils(
         StatusCodes.BAD_REQUEST,
-        "요청 정보가 유효하지 않습니다.(닉네임 중복)"
+        "요청 정보가 유효하지 않습니다.(userName 중복)"
       );
     }
 

@@ -36,6 +36,14 @@ app.get("/", async (req, res) => {
   res.status(200).send("api서버 기본 페이지 입니다.");
 });
 
-app.listen(port, () => {
-  console.log("Server is running. PORT :", port);
-});
+const start = async () => {
+  try {
+    app.listen(port, () => {
+      console.log("Server is running. PORT :", port);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+start();
