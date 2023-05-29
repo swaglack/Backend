@@ -30,8 +30,11 @@ SERVICE_PORT=[포트정보]
 # 프로젝트 초기 구성
 ```
 npm init
-npm install express jsonwebtoken dotenv mongoose cors
+npm install express jsonwebtoken dotenv mongoose cors http-status-codes socket.io
 npm install -D nodemon
+
+# 클라이언트에서 소켓 통신을 위해 아래 모듈 필요
+npm install socket.io-client
 ```
 
 # prettier 준비 (코드 서식 통일)
@@ -64,8 +67,22 @@ npm install -D swagger-jsdoc swagger-ui-express
 https://any-ting.tistory.com/105
 ```
 
-# 에러 핸들러 클래스로 만들어서 하면 좋음
+# 에러 핸들러 클래스
+```
+utils/error.utils.js에 생성
 
+상태 메시지 및 상태 코드 예시
+StatusCodes.OK: 200
+StatusCodes.CREATED: 201
+StatusCodes.NO_CONTENT: 204
+StatusCodes.BAD_REQUEST: 400
+StatusCodes.UNAUTHORIZED: 401
+StatusCodes.FORBIDDEN: 403
+StatusCodes.NOT_FOUND: 404
+StatusCodes.METHOD_NOT_ALLOWED: 405
+StatusCodes.INTERNAL_SERVER_ERROR: 500
+StatusCodes.SERVICE_UNAVAILABLE: 503
+```
 
 # 서버 구성
 ```
@@ -79,9 +96,26 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 
 sudo service mongod restart
-```
 
-# 매니저님 질문 리스트 및 숙제리스트
-1. workspace 스키마와 channel 스키마를 통합하는 것과 나누는 것에 대한 장단점 및 매니저님 의견 물어보기
-2. 에러처리 미들웨어 및 에러 핸들러 공부해오기
-3. API 구성 할때 URL PATH가 길어져서 req.param에 넣는게 좋은지 아니면 req.body에 넣는게 좋은지 물어보기
+# nodejs 설치
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# git clone
+git clone https://github.com/swaglack/Backend
+cd Backend
+npm install
+
+# iptables 설정 3000 -> 80
+sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+
+# pm2 설치
+sudo -s
+npm install -g pm2
+
+# pm2 시작
+pm2 start app.js
+
+# pm2 종료
+pm2 delete 0 
+```

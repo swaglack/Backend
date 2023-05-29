@@ -1,4 +1,5 @@
-const CustomError = require("../utils/error.utils");
+const { StatusCodes } = require("http-status-codes");
+const ErrorUtils = require("../utils/error.utils");
 const UserService = require("../services/user.service");
 
 class UserController {
@@ -11,25 +12,23 @@ class UserController {
 
       // 입력값 유효성 검사
       if (!userName || !nickName || !userPwd) {
-        throw new CustomError(
-          "요청 정보가 유효하지 않습니다.(입력값 에러)",
-          400
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "userName, nickName, userPwd는 필수 입력값입니다."
         );
       }
 
       await this.userService.signUp(userName, nickName, userPwd, res);
 
-      return res.status(201).json({});
+      return res.status(StatusCodes.CREATED).end();
     } catch (err) {
-      if (err instanceof CustomError) {
+      console.error(err);
+      if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.log(err);
-      return res.status(403).json({
-        message: "회원가입에 실패했습니다.",
-      });
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 
@@ -40,25 +39,29 @@ class UserController {
 
       // 입력값 유효성 검사
       if (!userName || !userPwd) {
-        throw new CustomError(
-          "요청 정보가 유효하지 않습니다.(입력값 에러)",
-          400
+        throw new ErrorUtils(
+          StatusCodes.BAD_REQUEST,
+          "userName, userPwd는 필수 입력값입니다."
         );
       }
 
-      await this.userService.logIn(userName, userPwd, res);
+      // 유저 로그인 및 토큰 생성
+      const token = await this.userService.logIn(userName, userPwd, res);
 
-      return res.status(201).json({});
+      // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
+      res.set("Authorization", `Bearer ${token}`, { secure: false });
+
+      return res
+        .status(StatusCodes.OK)
+        .json({ Authorization: `Bearer ${token}` });
     } catch (err) {
-      if (err instanceof CustomError) {
+      console.error(err);
+      if (err instanceof ErrorUtils) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      console.log(err);
-      return res.status(403).json({
-        message: "로그인에 실패했습니다.",
-      });
+      return ErrorUtils.handleUnexpectedError(res);
     }
   };
 }

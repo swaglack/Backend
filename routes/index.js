@@ -10,6 +10,6 @@ const channelRouter = require("./channel.routes");
 router.use("/signup", signupRouter.router);
 router.use("/login", loginRouter.router);
 router.use("/workspace", workspaceRouter.router);
-router.use("/workspace/:workspaceid/channel", channelRouter.router);
+router.use("/workspace/:workspaceId/channel", channelRouter.router);
 
 module.exports = router;

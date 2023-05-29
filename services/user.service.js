@@ -1,5 +1,7 @@
-const CustomError = require("../utils/error.utils");
+const { StatusCodes } = require("http-status-codes");
+const ErrorUtils = require("../utils/error.utils");
 const UserRepository = require("../repositories/user.repository");
+const { TokenUtil } = require("../utils/token.utils");
 
 class UserService {
   userRepository = new UserRepository();
@@ -11,7 +13,10 @@ class UserService {
 
     // User 중복 검사
     if (getUser) {
-      throw new CustomError("요청 정보가 유효하지 않습니다.(닉네임 중복)", 400);
+      throw new ErrorUtils(
+        StatusCodes.BAD_REQUEST,
+        "요청 정보가 유효하지 않습니다.(userName 중복)"
+      );
     }
 
     // User 생성
@@ -27,17 +32,21 @@ class UserService {
   // 로그인
   logIn = async (userName, userPwd, res) => {
     // User 조회
-    const getUser = await this.userRepository.getUser(userName);
+    const user = await this.userRepository.getUser(userName);
 
     // User 아이디 및 비밀번호 유효성 검사
-    if (!getUser || userPwd !== getUser.userPwd) {
-      throw new CustomError(
-        "요청 정보가 유효하지 않습니다.(아이디 or 비밀번호 불일치)",
-        400
+    if (!user || userPwd !== user.userPwd) {
+      throw new ErrorUtils(
+        StatusCodes.BAD_REQUEST,
+        "요청 정보가 유효하지 않습니다.(아이디 or 비밀번호 불일치)"
       );
     }
 
-    return true;
+    // JWT 토큰 생성
+    const tokenUtil = new TokenUtil(user.userId, user.userName);
+    const token = tokenUtil.createToken();
+
+    return token;
   };
 }
 
