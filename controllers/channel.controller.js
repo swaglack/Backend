@@ -44,7 +44,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -80,7 +80,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -128,7 +128,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -178,7 +178,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -226,7 +226,7 @@ class ChannelController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 }

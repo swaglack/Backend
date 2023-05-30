@@ -6,6 +6,7 @@ const ErrorUtils = require("./utils/error.utils"); // Error 처리 핸들러 호
 const routes = require("./routes"); // routes/index.js 파일에서 라우터 정보 가져오기
 const logMiddleware = require("./middlewares/log.middleware"); // 로깅 미들웨어
 const socketUtil = require("./utils/socket.utils");
+const { StatusCodes } = require("http-status-codes");
 
 const port = process.env.SERVICE_PORT || 3000; // 서비스 포트 정의
 const app = express();
@@ -37,8 +38,12 @@ app.get("/", async (req, res) => {
 
 // 에러처리 미들웨어
 app.use(function (err, req, res, next) {
-  console.error(err);
-  return ErrorUtils.handleInternalServerError(res);
+  const errorUtils = new ErrorUtils();
+  return errorUtils.handleErrorResponse(
+    res,
+    StatusCodes.NOT_ACCEPTABLE,
+    "기타 오류"
+  );
 });
 
 const start = async () => {
@@ -46,8 +51,9 @@ const start = async () => {
     server.listen(port, () => {
       console.log("Server is running. PORT :", port);
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
+    return ErrorUtils.handleInternalServerError(res);
   }
 }
 

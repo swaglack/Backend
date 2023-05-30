@@ -28,7 +28,7 @@ class WorkspaceController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -44,7 +44,7 @@ class WorkspaceController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -82,7 +82,7 @@ class WorkspaceController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -119,7 +119,7 @@ class WorkspaceController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -155,7 +155,7 @@ class WorkspaceController {
           message: err.message,
         });
       }
-      return ErrorUtils.handleUnexpectedError(res);
+      return ErrorUtils.handleInternalServerError(res);
     }
   };
 }
