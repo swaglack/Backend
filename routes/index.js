@@ -10,7 +10,7 @@ const channelRouter = require("./channel.routes");
 
 router.use("/signup", signupRouter.router);
 router.use("/login", loginRouter.router);
-// router.use("/userinfo", userinfoRouter.router); // 유저인포 API 문서 반영 필요
+router.use("/userinfo", userinfoRouter.router); // 유저인포 API 문서 반영 필요
 router.use("/workspace", workspaceRouter.router);
 router.use("/workspace/:workspaceId/channel", channelRouter.router);
 
