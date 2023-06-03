@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const ErrorUtils = require("../utils/error.utils");
+const CustomError = require("../utils/error.utils");
 const UserService = require("../services/user.service");
 
 class UserController {
@@ -12,10 +12,11 @@ class UserController {
 
       // 입력값 유효성 검사
       if (!userName || !nickName || !userPwd) {
-        throw new ErrorUtils(
-          StatusCodes.BAD_REQUEST,
-          "userName, nickName, userPwd는 필수 입력값입니다."
-        );
+        throw new CustomError("userName, nickName, userPwd는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
+        // throw new ErrorUtils(
+        //   StatusCodes.BAD_REQUEST,
+        //   "userName, nickName, userPwd는 필수 입력값입니다."
+        // );
       }
 
       await this.userService.signUp(userName, nickName, userPwd, res);
@@ -23,12 +24,21 @@ class UserController {
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
       console.error(err);
-      if (err instanceof ErrorUtils) {
+      if (err instanceof CustomError) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return res.status(StatusCodes.NOT_ACCEPTABLE).json({
+        message: "기타 오류",
+      });
+      // console.error(err);
+      // if (err instanceof ErrorUtils) {
+      //   return res.status(err.statusCode).json({
+      //     message: err.message,
+      //   });
+      // }
+      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -39,10 +49,11 @@ class UserController {
 
       // 입력값 유효성 검사
       if (!userName || !userPwd) {
-        throw new ErrorUtils(
-          StatusCodes.BAD_REQUEST,
-          "userName, userPwd는 필수 입력값입니다."
-        );
+        throw new CustomError("userName, userPwd는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
+        // throw new ErrorUtils(
+        //   StatusCodes.BAD_REQUEST,
+        //   "userName, userPwd는 필수 입력값입니다."
+        // );
       }
 
       // 유저 로그인 및 토큰 생성
@@ -56,12 +67,21 @@ class UserController {
         .json({ Authorization: `Bearer ${token}` });
     } catch (err) {
       console.error(err);
-      if (err instanceof ErrorUtils) {
+      if (err instanceof CustomError) {
         return res.status(err.statusCode).json({
           message: err.message,
         });
       }
-      return ErrorUtils.handleInternalServerError(res);
+      return res.status(StatusCodes.NOT_ACCEPTABLE).json({
+        message: "기타 오류",
+      });
+      // console.error(err);
+      // if (err instanceof ErrorUtils) {
+      //   return res.status(err.statusCode).json({
+      //     message: err.message,
+      //   });
+      // }
+      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 }

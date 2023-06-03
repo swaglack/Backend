@@ -2,7 +2,7 @@ require("dotenv").config(); // dotenv 호출
 const http = require('http'); // http 패키지 추가
 const express = require("express"); // express 모듈 사용
 const cors = require("cors"); // cors 미들웨어 추가
-const ErrorUtils = require("./utils/error.utils"); // Error 처리 핸들러 호출
+const CustomError = require("./utils/error.utils"); // Error 처리 핸들러 호출
 const routes = require("./routes"); // routes/index.js 파일에서 라우터 정보 가져오기
 const logMiddleware = require("./middlewares/log.middleware"); // 로깅 미들웨어
 const socketUtil = require("./utils/socket.utils");
@@ -38,12 +38,16 @@ app.get("/", async (req, res) => {
 
 // 에러처리 미들웨어
 app.use(function (err, req, res, next) {
-  const errorUtils = new ErrorUtils();
-  return errorUtils.handleErrorResponse(
-    res,
-    StatusCodes.NOT_ACCEPTABLE,
-    "기타 오류"
-  );
+  console.error(err);
+  res
+    .status(500)
+    .send("서버에서 에러가 발생하였습니다. 관리자에게 문의 부탁드립니다.");
+  // const errorUtils = new ErrorUtils();
+  // return errorUtils.handleErrorResponse(
+  //   res,
+  //   StatusCodes.NOT_ACCEPTABLE,
+  //   "기타 오류"
+  // );
 });
 
 const start = async () => {
@@ -53,7 +57,7 @@ const start = async () => {
     });
   } catch (err) {
     console.error(err);
-    return ErrorUtils.handleInternalServerError(res);
+    // return ErrorUtils.handleInternalServerError(res);
   }
 }
 

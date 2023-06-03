@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const ErrorUtils = require("../utils/error.utils");
+const CustomError = require("../utils/error.utils");
 const ChannelRepository = require("../repositories/channel.repository");
 const WorkspaceRepository = require("../repositories/workspace.repository");
 
@@ -14,18 +14,20 @@ class ChannelService {
     
     // 해당 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     };
 
     // 워크스페이스 채널에 이미 해당 채널이 있음
     if (workspace.workspaceChannel.includes(channelName)) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        `${channelName}은/는 이미 해당 워크스페이스의 채널입니다.`
-      );
+      throw new CustomError(`${channelName}은/는 이미 해당 워크스페이스의 채널입니다.`, StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   `${channelName}은/는 이미 해당 워크스페이스의 채널입니다.`
+      // );
     }
     
     // 워크스페이스에 채널 정보 반영
@@ -36,10 +38,11 @@ class ChannelService {
 
     // 워크스페이스에 채널 정보 반영 실패
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "워크스페이스에 채널 정보 반영에 실패했습니다."
-      );
+      throw new CustomError("워크스페이스에 채널 정보 반영에 실패했습니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "워크스페이스에 채널 정보 반영에 실패했습니다."
+      // );
     }
 
     // 채널 조회
@@ -47,10 +50,11 @@ class ChannelService {
 
     // 이미 해당 워크스페이스와 채널 정보를 가진 값이 존재
     if (channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "이미 해당 워크스페이스와 채널 정보를 가진 값이 존재합니다."
-      );
+      throw new CustomError("이미 해당 워크스페이스와 채널 정보를 가진 값이 존재합니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "이미 해당 워크스페이스와 채널 정보를 가진 값이 존재합니다."
+      // );
     }
 
     // 채널 생성
@@ -62,10 +66,11 @@ class ChannelService {
 
     // 채널이 정상적으로 생성되지 않음
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "채널 생성에 실패하였습니다."
-      );
+      throw new CustomError("채널 생성에 실패하였습니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "채널 생성에 실패하였습니다."
+      // );
     }
 
     return channel;
@@ -79,10 +84,11 @@ class ChannelService {
 
     // 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     }
 
     const channel = await this.channelRepository.getAllChannel(workspaceId);
@@ -102,20 +108,22 @@ class ChannelService {
 
     // 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     }
     
     const channel = await this.channelRepository.getOneChannelbyId(channelId);
 
     // 채널이 없는 경우 에러
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "채널이 존재하지 않습니다."
-      );
+      throw new CustomError("채널이 존재하지 않습니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "채널이 존재하지 않습니다."
+      // );
     }
 
     const filteredChannel = {
@@ -133,28 +141,31 @@ class ChannelService {
 
     // 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     }
     
     let channel = await this.channelRepository.getOneChannelbyId(channelId);
 
     // 채널이 없는 경우 에러
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "채널이 존재하지 않습니다."
-      );
+      throw new CustomError("채널이 존재하지 않습니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "채널이 존재하지 않습니다."
+      // );
     }
 
     // 워크스페이스 멤버에 이미 해당 인원이 있음
     if (channel.channelMember.includes(newMember)) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        `${newMember}은/는 이미 해당 채널의 멤버입니다.`
-      );
+      throw new CustomError(`${newMember}은/는 이미 해당 채널의 멤버입니다.`, StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   `${newMember}은/는 이미 해당 채널의 멤버입니다.`
+      // );
     }
 
     channel = await this.channelRepository.putUserToChannel(
@@ -170,20 +181,22 @@ class ChannelService {
 
     // 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     }
     
     let channel = await this.channelRepository.getOneChannelbyId(channelId);
 
     // 채널이 없는 경우 에러
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "채널이 존재하지 않습니다."
-      );
+      throw new CustomError("채널이 존재하지 않습니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "채널이 존재하지 않습니다."
+      // );
     }
     
     await this.channelRepository.deleteChannel(channelId);
@@ -196,13 +209,14 @@ class ChannelService {
 
     // 채널이 존재하지 않음
     if (!channel) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "채널이 존재하지 않습니다."
-      );
+      throw new CustomError("채널이 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "채널이 존재하지 않습니다."
+      // );
     }
-    console.log(data.name)
-    console.log(data.message)
+    // console.log(data.name)
+    // console.log(data.message)
 
     if (channel.channelChat[0]) {
       await this.channelRepository.putChatToChannel(data, channelName);

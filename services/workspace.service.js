@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes"); // StatusCodes를 사용하기 위해 http-status-codes 패키지 추가
-const ErrorUtils = require("../utils/error.utils");
+const CustomError = require("../utils/error.utils");
 const WorkspaceRepository = require("../repositories/workspace.repository");
 
 class WorkspaceService {
@@ -10,10 +10,11 @@ class WorkspaceService {
     // 해당 이름의 Workspace가 있는지 확인
     const checkWorkspace = await this.workspaceRepository.getOneWorkspaceByName(workspaceName);
     if (checkWorkspace) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        "동일한 이름의 workspace가 존재합니다."
-      );
+      throw new CustomError("동일한 이름의 workspace가 존재합니다.", StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   "동일한 이름의 workspace가 존재합니다."
+      // );
     };
 
     // workspace 생성
@@ -44,10 +45,11 @@ class WorkspaceService {
 
     // 해당 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     };
 
     const filteredWorkspace = {
@@ -66,18 +68,20 @@ class WorkspaceService {
     
     // 해당 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     };
 
     // 워크스페이스 멤버에 이미 해당 인원이 있음
     if (workspace.workspaceMember.includes(newMember)) {
-      throw new ErrorUtils(
-        StatusCodes.BAD_REQUEST,
-        `${newMember}은/는 이미 해당 워크스페이스의 멤버입니다.`
-      );
+      throw new CustomError(`${newMember}은/는 이미 해당 워크스페이스의 멤버입니다.`, StatusCodes.BAD_REQUEST);
+      // throw new ErrorUtils(
+      //   StatusCodes.BAD_REQUEST,
+      //   `${newMember}은/는 이미 해당 워크스페이스의 멤버입니다.`
+      // );
     }
     
     await this.workspaceRepository.putUserToWorkspace(workspaceId, newMember);
@@ -91,10 +95,11 @@ class WorkspaceService {
     
     // 해당 워크스페이스가 존재하지 않음
     if (!workspace) {
-      throw new ErrorUtils(
-        StatusCodes.NOT_FOUND,
-        "워크스페이스가 존재하지 않습니다."
-      );
+      throw new CustomError("워크스페이스가 존재하지 않습니다.", StatusCodes.NOT_FOUND);
+      // throw new ErrorUtils(
+      //   StatusCodes.NOT_FOUND,
+      //   "워크스페이스가 존재하지 않습니다."
+      // );
     };
 
     await this.workspaceRepository.deleteWorkspace(workspaceId);
