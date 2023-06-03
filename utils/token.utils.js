@@ -7,9 +7,10 @@ const jwt = require("jsonwebtoken");
 const secretKey = env.JWT_SECRET;
 
 class TokenUtil {
-  constructor(id, name) {
+  constructor(id, name, nickName) {
     this.id = id;
     this.name = name;
+    this.nickName = nickName;
   }
 
   // Token 생성 메서드
@@ -18,6 +19,7 @@ class TokenUtil {
       {
         userId: this.id,
         userName: this.name,
+        nickName: this.nickName,
       },
       secretKey,
       {
