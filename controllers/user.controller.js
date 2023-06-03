@@ -91,11 +91,11 @@ class UserController {
   // 유저정보 가져오기
   userinfo = async (req, res, next) => {
     try {
-      const nickName = req.locals.user.userName;
+      const nickName = req.locals.user.nickName;
 
       return res
         .status(StatusCodes.OK)
-        .json({ userName });
+        .json({ nickName });
     } catch (err) {
       console.error(err);
       if (err instanceof CustomError) {
