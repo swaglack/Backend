@@ -11,7 +11,8 @@ const secretKey = process.env.JWT_SECRET;
 module.exports = async (req, res, next) => {
   try {
     // req.header에 토큰 정보가 있는지 확인
-    if (req.headers.authorization === undefined) {
+    // if (req.headers.authorization === undefined) {
+    if (req.body.authorization === undefined) {
       throw new CustomError("로그인 후 이용 가능한 기능입니다.(request 헤더에 토큰 정보가 없음)", StatusCodes.UNAUTHORIZED);
       // throw new ErrorUtils(
       //   StatusCodes.UNAUTHORIZED,
@@ -20,7 +21,8 @@ module.exports = async (req, res, next) => {
     }
 
     // 토큰 입력값 검증
-    const token = req.headers.authorization;
+    // const token = req.headers.authorization;
+    const token = req.body.authorization;
     const [AuthType, AuthToken] = (token ?? "").split(" ");
     console.log(token)
     console.log(AuthType)
