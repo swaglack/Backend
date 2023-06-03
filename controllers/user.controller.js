@@ -91,7 +91,7 @@ class UserController {
   // 유저정보 가져오기
   userinfo = async (req, res, next) => {
     try {
-      const nickName = req.locals.user.nickName;
+      const { nickName } = res.locals.user;
 
       return res
         .status(StatusCodes.OK)
