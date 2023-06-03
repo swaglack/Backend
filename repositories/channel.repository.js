@@ -1,4 +1,6 @@
-const Channel = require("../schemas/channel");
+// const Channel = require("../schemas/channel");
+const { Op } = require("sequelize"); // Sequlize Operation 연산 사용을 위해 추가
+const { Todo, User, UserInfo, Like } = require("../models"); // 모델 가져오기
 
 class ChannelRepository {
   // Channel 생성

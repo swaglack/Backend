@@ -7,7 +7,7 @@ class UserService {
   userRepository = new UserRepository();
 
   // 회원가입
-  signUp = async (userName, nickName, userPwd, res) => {
+  signUp = async (userName, nickName, userPwd) => {
     // User 조회
     const getUser = await this.userRepository.getUser(userName);
 

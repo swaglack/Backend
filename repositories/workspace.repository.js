@@ -1,4 +1,6 @@
-const Workspace = require("../schemas/workspace");
+// const Workspace = require("../schemas/workspace");
+const { Op } = require("sequelize"); // Sequlize Operation 연산 사용을 위해 추가
+const { Todo, User, UserInfo, Like } = require("../models"); // 모델 가져오기
 
 class WorkspaceRepository {
   // Workspace 생성

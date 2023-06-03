@@ -119,3 +119,18 @@ pm2 start app.js
 # pm2 종료
 pm2 delete 0 
 ```
+
+# DB 변경 (MongoDB -> MySQL)
+```
+npm install sequelize mysql2
+npm install -D sequelize-cli
+```
+**sequelize 초기 구성**
+```
+npx sequelize init
+```
+**DB**
+```
+npx sequelize db:create
+npx sequelize db:migrate
+```
