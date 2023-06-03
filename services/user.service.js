@@ -45,7 +45,7 @@ class UserService {
     }
 
     // JWT 토큰 생성
-    const tokenUtil = new TokenUtil(user.userId, user.userName);
+    const tokenUtil = new TokenUtil(user.userId, user.userName, user.nickName);
     const token = tokenUtil.createToken();
 
     return token;
