@@ -22,6 +22,9 @@ module.exports = async (req, res, next) => {
     // 토큰 입력값 검증
     const token = req.headers.authorization;
     const [AuthType, AuthToken] = (token ?? "").split(" ");
+    console.log(token)
+    console.log(AuthType)
+    console.log(AuthToken)
     if (!AuthToken || AuthType !== "Bearer") {
       throw new CustomError("로그인 후 이용 가능한 기능입니다.(토큰 형식이 올바르지 않음)", StatusCodes.UNAUTHORIZED);
       // throw new ErrorUtils(
