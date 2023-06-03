@@ -88,37 +88,26 @@ class UserController {
     }
   };
 
-  // // 유저정보 가져오기
-  // userinfo = async (req, res, next) => {
-  //   try {
-  //     const { userName, userPwd } = req.body.Authorization;
+  // 유저정보 가져오기
+  userinfo = async (req, res, next) => {
+    try {
+      const nickName = req.locals.user.nickName;
 
-  //     // 입력값 유효성 검사
-  //     if (!userName || !userPwd) {
-  //       throw new CustomError("userName, userPwd는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-  //     }
-
-  //     // 유저 로그인 및 토큰 생성
-  //     const token = await this.userService.logIn(userName, userPwd, res);
-
-  //     // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
-  //     res.set("Authorization", `Bearer ${token}`, { secure: false });
-
-  //     return res
-  //       .status(StatusCodes.OK)
-  //       .json({ Authorization: `Bearer ${token}` });
-  //   } catch (err) {
-  //     console.error(err);
-  //     if (err instanceof CustomError) {
-  //       return res.status(err.statusCode).json({
-  //         message: err.message,
-  //       });
-  //     }
-  //     return res.status(StatusCodes.NOT_ACCEPTABLE).json({
-  //       message: "기타 오류",
-  //     });
-  //   }
-  // };
+      return res
+        .status(StatusCodes.OK)
+        .json({ nickName });
+    } catch (err) {
+      console.error(err);
+      if (err instanceof CustomError) {
+        return res.status(err.statusCode).json({
+          message: err.message,
+        });
+      }
+      return res.status(StatusCodes.NOT_ACCEPTABLE).json({
+        message: "기타 오류",
+      });
+    }
+  };
 }
 
 module.exports = UserController;
