@@ -16,7 +16,7 @@
 ![image](https://github.com/swaglack/Backend/assets/58283954/2b463d87-3b68-4993-b3a4-b736f40ae3ae)
 
 # ERD
-image.png
+![image](https://github.com/swaglack/Backend/assets/58283954/61d3015b-3842-418a-be53-7a919e163e19)
 
 # dotenv
 ```
