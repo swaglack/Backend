@@ -5,7 +5,9 @@ const WorkspaceService = require("../services/workspace.service");
 class WorkspaceController {
   workspaceService = new WorkspaceService();
 
-  // 워크스페이스 추가
+  /**************************************************
+   *               워크스페이스 생성                *
+   **************************************************/
   postWorkspace = async (req, res) => {
     try {
       const userId = res.locals.user.userId;
@@ -31,7 +33,9 @@ class WorkspaceController {
     }
   };
 
-  // 전체 워크스페이스 조회
+  /**************************************************
+   *            전체 워크스페이스 조회              *
+   **************************************************/
   getAllWorkspace = async (req, res, next) => {
     try {
 			const userId = res.locals.user.userId;
@@ -56,7 +60,9 @@ class WorkspaceController {
     }
   };
 
-  // 특정 워크스페이스 조회
+  /**************************************************
+   *             단일 워크스페이스 조회             *
+   **************************************************/
   getOneWorkspace = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
@@ -83,7 +89,9 @@ class WorkspaceController {
     }
   };
 
-  // 인원 추가
+	/**************************************************
+	 *               워크스페이스 수정                *
+	 **************************************************/
   putUserToWorkspace = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
@@ -109,7 +117,9 @@ class WorkspaceController {
     }
   };
 
-  // 워크스페이스 삭제
+	/**************************************************
+	 *                워크스페이스 삭제               *
+	 **************************************************/
   deleteWorkspace = async (req, res, next) => {
     try {
       const workspaceId = req.params.workspaceId;

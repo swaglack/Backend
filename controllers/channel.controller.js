@@ -5,7 +5,9 @@ const ChannelService = require("../services/channel.service");
 class ChannelController {
   channelService = new ChannelService();
 
-  // 채널 추가
+  /**************************************************
+   *                   채널 생성                    *
+   **************************************************/
   postChannel = async (req, res) => {
     try {
       const userName = res.locals.user.userName;
@@ -38,7 +40,9 @@ class ChannelController {
     }
   };
 
-  // 전체 채널 조회
+  /**************************************************
+   *               전체 채널 조회                   *
+   **************************************************/
   getAllChannel = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
@@ -63,7 +67,9 @@ class ChannelController {
     }
   };
 
-  // 특정 채널 조회
+  /**************************************************
+   *               단일 채널 조회                   *
+   **************************************************/
   getOneChannel = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
@@ -92,7 +98,9 @@ class ChannelController {
     }
   };
 
-  // 채널에 멤버 추가
+  /**************************************************
+   *                  채널 수정                     *
+   **************************************************/
   putUserToChannel = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
@@ -123,7 +131,9 @@ class ChannelController {
     }
   };
 
-  // 채널 삭제
+  /**************************************************
+   *                  채널 삭제                     *
+   **************************************************/
   deleteChannel = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;

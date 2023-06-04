@@ -187,7 +187,9 @@ class ChannelService {
     await this.channelRepository.deleteChannel({ workspaceId, channelId });
   };
 
-  // Channel 수정 - 채팅 추가
+  /**************************************************
+   *                  채팅 추가                     *
+   **************************************************/
   putChatToChannel = async (data, workspaceName, channelName, res, next) => {
     const channel = await this.channelRepository.getOneChannelbyName2(channelName, workspaceName);
 
