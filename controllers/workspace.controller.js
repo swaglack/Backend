@@ -6,21 +6,17 @@ class WorkspaceController {
   workspaceService = new WorkspaceService();
 
   // 워크스페이스 추가
-  postWorkspace = async (req, res, next) => {
+  postWorkspace = async (req, res) => {
     try {
-      const userName = res.locals.user.userName;
+      const userId = res.locals.user.userId;
       const workspaceName = req.body.workspaceName;
 
       // 입력 데이터에 대한 유효성 검사
-      if (!workspaceName || !userName) {
-        throw new CustomError("workspaceName과 userName은 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceName과 userName은 필수 입력값입니다."
-        // );
+      if (!workspaceName || !userId) {
+        throw new CustomError("workspaceName과 userId은 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
       }
 
-      await this.workspaceService.postWorkspace(workspaceName, userName, res);
+      await this.workspaceService.postWorkspace(workspaceName, userId);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
       console.error(err);
@@ -32,20 +28,20 @@ class WorkspaceController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 전체 워크스페이스 조회
   getAllWorkspace = async (req, res, next) => {
     try {
-      const workspace = await this.workspaceService.getAllWorkspace();
+			const userId = res.locals.user.userId;
+
+			// 입력 데이터에 대한 유효성 검사
+			if (!userId) {
+				throw new CustomError("userId는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
+			}
+
+      const workspace = await this.workspaceService.getAllWorkspace(userId);
       return res.status(StatusCodes.OK).json(workspace);
     } catch (err) {
       console.error(err);
@@ -57,39 +53,17 @@ class WorkspaceController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 특정 워크스페이스 조회
-  getOneWorkspace = async (req, res, next) => {
+  getOneWorkspace = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
       
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId) {
         throw new CustomError("workspaceId는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId는 필수 입력값입니다."
-        // );
-      }
-
-      // params의 값이 objectId의 형식에 맞는지 검사
-      // 24개의 문자로 구성된 16진수 문자열 인지 확인
-      const isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
-      if (!isValidHex) {
-        throw new CustomError("workspaceId가 유효하지 않습니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId가 유효하지 않습니다."
-        // );
       }
 
       const workspace = await this.workspaceService.getOneWorkspace(
@@ -106,43 +80,21 @@ class WorkspaceController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
   // 인원 추가
-  putUserToWorkspace = async (req, res, next) => {
+  putUserToWorkspace = async (req, res) => {
     try {
       const workspaceId = req.params.workspaceId;
-      const newMember = req.body.nickName;
+      const nickName = req.body.nickName;
 
       // 입력 데이터에 대한 유효성 검사
-      if (!workspaceId || !newMember) {
+      if (!workspaceId || !nickName) {
         throw new CustomError("workspaceId와 nickName은 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId와 nickName은 필수 입력값입니다."
-        // );
       }
 
-      // params의 값이 objectId의 형식에 맞는지 검사
-      // 24개의 문자로 구성된 16진수 문자열 인지 확인
-      const isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
-      if (!isValidHex) {
-        throw new CustomError("workspaceId가 유효하지 않습니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId가 유효하지 않습니다."
-        // );
-      }
-
-      await this.workspaceService.putUserToWorkspace(workspaceId, newMember);
+      await this.workspaceService.putUserToWorkspace(workspaceId, nickName);
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
       console.error(err);
@@ -154,13 +106,6 @@ class WorkspaceController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
@@ -172,21 +117,6 @@ class WorkspaceController {
       // 입력 데이터에 대한 유효성 검사
       if (!workspaceId) {
         throw new CustomError("workspaceId는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId는 필수 입력값입니다."
-        // );
-      }
-
-      // params의 값이 objectId의 형식에 맞는지 검사
-      // 24개의 문자로 구성된 16진수 문자열 인지 확인
-      const isValidHex = /^[0-9a-fA-F]{24}$/.test(workspaceId);
-      if (!isValidHex) {
-        throw new CustomError("workspaceId가 유효하지 않습니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "workspaceId가 유효하지 않습니다."
-        // );
       }
 
       await this.workspaceService.deleteWorkspace(workspaceId);
@@ -201,13 +131,6 @@ class WorkspaceController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 }

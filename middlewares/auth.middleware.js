@@ -12,25 +12,20 @@ module.exports = async (req, res, next) => {
   try {
     // req.header에 토큰 정보가 있는지 확인
     if (req.headers.authorization === undefined) {
-      throw new CustomError("로그인 후 이용 가능한 기능입니다.(request 헤더에 토큰 정보가 없음)", StatusCodes.UNAUTHORIZED);
-      // throw new ErrorUtils(
-      //   StatusCodes.UNAUTHORIZED,
-      //   "로그인 후 이용 가능한 기능입니다.(request 헤더에 토큰 정보가 없음)"
-      // );
+      throw new CustomError(
+        "로그인 후 이용 가능한 기능입니다.(request 헤더에 토큰 정보가 없음)",
+        StatusCodes.UNAUTHORIZED
+      );
     }
 
     // 토큰 입력값 검증
     const token = req.headers.authorization;
     const [AuthType, AuthToken] = (token ?? "").split(" ");
-    console.log(token)
-    console.log(AuthType)
-    console.log(AuthToken)
     if (!AuthToken || AuthType !== "Bearer") {
-      throw new CustomError("로그인 후 이용 가능한 기능입니다.(토큰 형식이 올바르지 않음)", StatusCodes.UNAUTHORIZED);
-      // throw new ErrorUtils(
-      //   StatusCodes.UNAUTHORIZED,
-      //   "로그인 후 이용 가능한 기능입니다.(토큰 형식이 올바르지 않음)"
-      // );
+      throw new CustomError(
+        "로그인 후 이용 가능한 기능입니다.(토큰 형식이 올바르지 않음)",
+        StatusCodes.UNAUTHORIZED
+      );
     }
 
     // 토큰 유효성 검증을 위한 객체 생성
@@ -39,11 +34,10 @@ module.exports = async (req, res, next) => {
     // 토큰 유효성 검증
     const isTokenValidate = verifyToken.validateToken();
     if (!isTokenValidate) {
-      throw new CustomError("로그인 후 이용 가능한 기능입니다.(토큰 유효성 검사에 실패)", StatusCodes.UNAUTHORIZED);
-      // throw new ErrorUtils(
-      //   StatusCodes.UNAUTHORIZED,
-      //   "로그인 후 이용 가능한 기능입니다.(토큰 유효성 검사에 실패)"
-      // );
+      throw new CustomError(
+        "로그인 후 이용 가능한 기능입니다.(토큰 유효성 검사에 실패)",
+        StatusCodes.UNAUTHORIZED
+      );
     }
 
     // 토큰 Decode -> 토큰의 payload에 닮긴 user 정보 추출

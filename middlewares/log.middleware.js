@@ -1,4 +1,4 @@
-const ErrorUtils = require("../utils/error.utils");
+const { StatusCodes } = require("http-status-codes");
 
 module.exports = async (req, res, next) => {
   try {
@@ -9,6 +9,8 @@ module.exports = async (req, res, next) => {
     next();
   } catch (err) {
     console.error(err);
-    return ErrorUtils.handleInternalServerError(res);
+		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+			message: "서버 오류",
+		});
   }
 };

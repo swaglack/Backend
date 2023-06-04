@@ -12,18 +12,18 @@ module.exports = {
       userId: {
         type:Sequelize.INTEGER,
         allowNull: false,
-          references: {
-            model: "Users",
-            key: "userId",
-          }
+				references: {
+					model: "Users",
+					key: "userId",
+				}
       },
       channelId: {
         type:Sequelize.INTEGER,
         allowNull: false,
-          references: {
-            model: "Channels",
-            key: "channelId",
-          }
+				references: {
+					model: "Channels",
+					key: "channelId",
+				}
       }
     });
   },

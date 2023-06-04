@@ -15,6 +15,9 @@
 # 디렉토리 구조
 ![image](https://github.com/swaglack/Backend/assets/58283954/2b463d87-3b68-4993-b3a4-b736f40ae3ae)
 
+# ERD
+image.png
+
 # dotenv
 ```
 dotenv : 시크릿 정보가 노출되지 않도록 사용하는 모듈

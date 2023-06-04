@@ -32,6 +32,7 @@ module.exports = {
           references: {
             model: "Workspaces",
             key: "workspaceId",
+						onDelete: "CASCADE"
           }
       }
     });

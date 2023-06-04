@@ -15,6 +15,7 @@ module.exports = {
           references: {
             model: "Users",
             key: "userId",
+						onDelete: "CASCADE",
           }
       },
       workspaceId: {
@@ -23,6 +24,7 @@ module.exports = {
           references: {
             model: "Workspaces",
             key: "workspaceId",
+						onDelete: "CASCADE",
           }
       }
     });

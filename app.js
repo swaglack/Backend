@@ -12,10 +12,6 @@ const port = process.env.SERVICE_PORT || 3000; // 서비스 포트 정의
 const app = express();
 const server = http.createServer(app);
 
-// // DB 연결, schemas/index.js를 통해 DB 연결
-// const connect = require("./schemas");
-// connect();
-
 // 미들웨어
 app.use(cors({ origin: process.env.FRONTEND_DOMAIN || true })); // cors 미들웨어
 app.use(logMiddleware); // 로깅 미들웨어
@@ -42,12 +38,6 @@ app.use(function (err, req, res, next) {
   res
     .status(StatusCodes.INTERNAL_SERVER_ERROR)
     .send("서버에서 에러가 발생하였습니다. 관리자에게 문의 부탁드립니다.");
-  // const errorUtils = new ErrorUtils();
-  // return errorUtils.handleErrorResponse(
-  //   res,
-  //   StatusCodes.NOT_ACCEPTABLE,
-  //   "기타 오류"
-  // );
 });
 
 const start = async () => {
@@ -57,7 +47,6 @@ const start = async () => {
     });
   } catch (err) {
     console.error(err);
-    // return ErrorUtils.handleInternalServerError(res);
   }
 }
 

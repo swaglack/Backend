@@ -26,7 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Workspaces, {
         sourceKey : 'userId',
         foreignKey : 'userId'
-      })
+      });
+			this.hasMany(models.UserChannels, {
+				sourceKey: 'userId',
+				foreignKey: 'userId'
+			});
     }
   }
   Users.init({

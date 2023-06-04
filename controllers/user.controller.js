@@ -5,21 +5,19 @@ const UserService = require("../services/user.service");
 class UserController {
   userService = new UserService();
 
-  // 회원가입
-  signUp = async (req, res, next) => {
+  /**************************************************
+   *                    회원가입                    *
+   **************************************************/
+  signUp = async (req, res) => {
     try {
       const { userName, nickName, userPwd } = req.body;
 
       // 입력값 유효성 검사
       if (!userName || !nickName || !userPwd) {
         throw new CustomError("userName, nickName, userPwd는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "userName, nickName, userPwd는 필수 입력값입니다."
-        // );
       }
 
-      await this.userService.signUp(userName, nickName, userPwd, res);
+      await this.userService.signUp(userName, nickName, userPwd);
 
       return res.status(StatusCodes.CREATED).end();
     } catch (err) {
@@ -32,38 +30,29 @@ class UserController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
-  // 로그인
-  logIn = async (req, res, next) => {
+  /**************************************************
+   *                    로그인                      *
+   **************************************************/
+  logIn = async (req, res) => {
     try {
       const { userName, userPwd } = req.body;
 
       // 입력값 유효성 검사
       if (!userName || !userPwd) {
         throw new CustomError("userName, userPwd는 필수 입력값입니다.", StatusCodes.BAD_REQUEST);
-        // throw new ErrorUtils(
-        //   StatusCodes.BAD_REQUEST,
-        //   "userName, userPwd는 필수 입력값입니다."
-        // );
       }
 
       // 유저 로그인 및 토큰 생성
-      const token = await this.userService.logIn(userName, userPwd, res);
+      const token = await this.userService.logIn(userName, userPwd);
 
       // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
-      res.set("Authorization", `Bearer ${token}`, { secure: false });
+      res.set("Authorization", `Bearer ${token}`, { secure: true });
 
-      // JWT 토큰을 header로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
-      res.cookie("Authorization", `Bearer ${token}`, { secure: false });
+      // JWT 토큰을 cookie로 전달 (body로 전달하는 값은 백엔드 내부 확인용)
+      res.cookie("Authorization", `Bearer ${token}`, { secure: true });
 
       return res
         .status(StatusCodes.OK)
@@ -78,25 +67,24 @@ class UserController {
       return res.status(StatusCodes.NOT_ACCEPTABLE).json({
         message: "기타 오류",
       });
-      // console.error(err);
-      // if (err instanceof ErrorUtils) {
-      //   return res.status(err.statusCode).json({
-      //     message: err.message,
-      //   });
-      // }
-      // return ErrorUtils.handleInternalServerError(res);
     }
   };
 
-  // 유저정보 가져오기
+  /**************************************************
+   *                    유저조회                    *
+   **************************************************/
   userinfo = async (req, res, next) => {
     try {
-      const nickName = res.locals.user.nickName;
-      console.log(nickName)
+      const { userId, userName, nickName } = res.locals.user;
 
-      return res
-        .status(StatusCodes.OK)
-        .json({ nickName });
+			// 입력값 유효성 검사
+      if (!userId || !userName || !nickName) {
+        throw new CustomError("토큰 정보가 유효하지 않습니다.", StatusCodes.BAD_REQUEST);
+      }
+
+      return res.status(StatusCodes.OK).json({ 
+				userId, userName, nickName 
+			});
     } catch (err) {
       console.error(err);
       if (err instanceof CustomError) {
