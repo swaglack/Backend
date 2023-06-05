@@ -47,7 +47,7 @@ class WorkspaceController {
     throw new ErrorUtils("워크스페이스 멤버 추가 실패",400)
   };
  };
-  deleteWorkspace = async (req,auth,res,next) => {
+  deleteWorkspace = async (req,res,next) => {
   try {
     //const {userId} = req.body;
     //const masterUser = res.locals.user.userId
