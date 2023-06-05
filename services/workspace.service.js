@@ -4,6 +4,7 @@ class WorkspaceService {
   workspaceRepository = new WorkspaceRepository();
 
   postWorkspace = async (workspaceName,workspaceMaster) => {
+    console.log("serviceserivceserivce")
     try {
       console.log("serviceserivce")
       const postWorkspace = await this.workspaceRepository.postWorkspace(workspaceName,workspaceMaster)
@@ -15,7 +16,8 @@ class WorkspaceService {
   };
   getAllWorkspace = async (userId) => {
     try {
-      let allWorkspace = await this.workspaceRepository.getAllWorkspace(userId);
+      const allWorkspace = await this.workspaceRepository.getAllWorkspace(userId);
+      console.log(`service ${allWorkspace}`)
       return allWorkspace;
       } catch (err) {
         return err;
@@ -30,18 +32,17 @@ class WorkspaceService {
     };
 
  };
-  putWorkspace = async (workspaceId,userId,memberUser) => {
+  putWorkspace = async (workspaceId,workspaceMember) => {
     try {
-      console.log('Putservice')
-      const putWorkspace = await this.workspaceRepository.putWorkspace(workspaceId,userId,memberUser);
+      const putWorkspace = await this.workspaceRepository.putWorkspace(workspaceId,workspaceMember);
       return putWorkspace;
     } catch (err) {
       return err;
     };
   };
-    deleteWorkspace = async (workspaceId,userId,masterUser) => {
+    deleteWorkspace = async (workspaceId) => {
     try {
-      const deleteWorkspace = await this.workspaceRepository.deleteWorkspace(workspaceId,userId,masterUser);
+      const deleteWorkspace = await this.workspaceRepository.deleteWorkspace(workspaceId);
       return deleteWorkspace;
     } catch (err) {
       return err;

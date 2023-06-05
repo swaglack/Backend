@@ -1,26 +1,18 @@
-const {Workspaces, UserWorkspaces, Users} = require('../models')
-const {Op} = require('sequelize')
-const ErrorUtils = require('../utils/error.utils')
+const Workspace = require('../schemas/workspace')
+
 
 class WorkspaceRepository {
   postWorkspace = async (workspaceName,workspaceMaster) => {
     try {
       console.log(workspaceMaster,workspaceName)
-      const postWorkspace = await Workspaces.create({
+      const postWorkspace = await Workspace.create({
         workspaceName : workspaceName,
-        userId : workspaceMaster,
+        workspaceMaster : workspaceMaster,
+        workspaceMember : [workspaceMaster]
       })
-      .then(
-        (result) => {
-          const workspaceId = result.dataValues.workspaceId
-          UserWorkspaces.create({
-            userId : workspaceMaster,
-            workspaceId : workspaceId
-          })
-      })
-      .catch(err => console.log(err))
       return postWorkspace;
     } catch (err) {
+      console.log(err,'repo')
       return err;
     }
   };
@@ -28,12 +20,12 @@ class WorkspaceRepository {
   getAllWorkspace = async (userId) => {
     console.log(userId)
     try {
-      const allWorkspace = await Users.findByPk(userId, {
-          include:[Workspaces]
-      });
-
-
-      return allWorkspace
+      const allWorkspace = await Workspace.find({
+        workspaceMember : 
+          { '$elemMatch' : {'$all':userId } }
+      })
+      console.log(`repo ${allWorkspace}`)
+      return allWorkspace;
     } catch(err) {
       return err;
     }
@@ -42,9 +34,10 @@ class WorkspaceRepository {
 
   getOneWorkspace = async (workspaceId) => {
     try {
-      const getOneWorkspace = await Workspaces.findByPk(workspaceId.workspaceid ,{
-        include:[Users]
-      });
+      const getOneWorkspace = await Workspace.findOne({
+        workspaceId : workspaceId
+      })
+      console.log(getOneWorkspace)
       return getOneWorkspace;
     } catch(err) {
       return err;
@@ -52,29 +45,13 @@ class WorkspaceRepository {
     
   }
 
-  putWorkspace = async (workspaceId,userId,memberUser) => {
+  putWorkspace = async (workspaceId,workspaceMember) => {
     try {
-      console.log('repo호출')
-        const putWorkspace = await UserWorkspaces.findOne({
-          attributes : ['userWorkspaceId'],
-          where : {
-            [Op.and]:[
-              {workspaceId, userId : memberUser},
-              {[Op.and] :[
-                {workspaceId : {[Op.not]:workspaceId}},
-                {userId : {[Op.not]:userId}}
-              ]
-          }]}
+      const putWorkspace = await Workspace.updateOne({
+        workspaceId : workspaceId
+      }, {
+        '$push' : {workspaceMember : workspaceMember}
       })
-      console.log(`error ${putWorkspace}`)
-        if(putWorkspace) {
-          UserWorkspaces.create({
-            userId : userId,
-            workspaceId : workspaceId
-          })
-        } else {
-          throw new ErrorUtils("적합하지 않은 요청입니다",400)
-        }
       return putWorkspace;
     } catch(err) {
       return err;
@@ -82,18 +59,13 @@ class WorkspaceRepository {
 
   }
 
-  deleteWorkspace = async (workspaceId,userId, masterUser) => {
+  deleteWorkspace = async (workspaceId,workspaceMater) => {
     try {
-      const deleteWorkspace = await Workspaces.findOne({
-        workspaceId, userId : masterUser
+      const deleteWorkspace = await Workspace.deleteOne({
+        workspaceId : workspaceId,
+        workspaceMater : workspaceMater
       })
-      if(deleteWorkspace) {
-        UserWorkspaces.destory({
-          where :{workspaceId,userId:userId}
-        })
-      } else {
-        throw new ErrorUtils("적합하지 않은 요청입니다",400)
-      }
+      console.log(typeof deleteWorkspace)
       return deleteWorkspace;
     } catch(err) {
       return err;

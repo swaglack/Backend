@@ -1,64 +1,57 @@
 const WorkspaceService = require('../services/workspace.service');
-const ErrorUtils = require('../utils/error.utils')
+
 class WorkspaceController {
   workspaceService = new WorkspaceService();
-  postWorkspace = async (req,res, next) => {
+  postWorkspace = async (req, res, next) => {
     try {
       const {workspaceName} = req.body;
-      const workspaceMaster = res.local.user.userId; //토큰값 혹은 res.locals값
+      const {workspaceMaster} = {workspaceMaster:'userId'}; //토큰값 혹은 res.locals값
       const postWorkspace = await this.workspaceService.postWorkspace(workspaceName,workspaceMaster);
       console.log(postWorkspace,'controller 값 체킹');
       return res.status(201).json({message : '워크스페이스 생성 완료'});
     } catch (err) {
-      throw new ErrorUtils("워크스페이스 추가 실패",400)
+      return res.status(400).json({message : '워크스페이스 실패',err})
     }
   };
 
   getAllWorkspace = async (req,res,next) => {
     try {
-      const userId = res.local.user.userId; //토큰값 혹은 res.locals값
+      const userId = 'userId'; //토큰값 혹은 res.locals값
       const allWorkspace = await this.workspaceService.getAllWorkspace(userId);
+      console.log(`controller ${allWorkspace}`)
       return res.status(200).json(allWorkspace);
       } catch (err) {
-        throw new ErrorUtils("워크스페이스 불러오기 실패",400)
+        return res.status(400).json({err})
       };
   };
   getOneWorkspace = async (req,res,next) => {
     try {
-      const workspaceId = req.params;
+      const {workspaceId} = req.param;
       const oneWorkspace = await this.workspaceService.getOneWorkspace(workspaceId);
       return res.status(200).json(oneWorkspace);
-    } catch (err) {
-      throw new ErrorUtils("워크스페이스 불러오기 실패",400)
+     } catch (err) {
+      return err;
     };
 
  };
   putWorkspace = async (req,res,next) => {
   try {
-    //const {workspaceId} = req.params;
-    //const {userId} = req.body;
-    //const memberUser = res.locals.user.userId
-    const userId = 2
-    const workspaceId = 2
-    const memberUser = 1
-    await this.workspaceService.putWorkspace(workspaceId,userId,memberUser);
+    const {workspaceId} = req.param;
+    const {workspaceMember} = req.body;
+    await this.workspaceService.putWorkspace(workspaceId,workspaceMember);
     return res.status(200).json({message:'추가 성공'});
-  } catch (err) {
-    throw new ErrorUtils("워크스페이스 멤버 추가 실패",400)
+   } catch (err) {
+    return err;
   };
  };
-  deleteWorkspace = async (req,auth,res,next) => {
+  deleteWorkspace = async (req,res,next) => {
   try {
-    //const {userId} = req.body;
-    //const masterUser = res.locals.user.userId
-    //const {workspaceId} = req.params;
-    const userId = 2
-    const workspaceId = 2
-    const masterUser = 1
-    await this.workspaceService.deleteWorkspace(workspaceId,userId,masterUser);
-    return res.status(200).json({message:'삭제 성공'});
+    const {userId} = 'userId';
+    const {workspaceId} = req.param;
+    await this.workspaceService.deleteWorkspace(workspaceId,userId)
+    return res.status(200).json({message:'삭제 성공'})
    } catch (err) {
-    throw new ErrorUtils("워크스페이스 삭제 실패",400)
+    return err;
   };
  };
 
